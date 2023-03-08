@@ -89,4 +89,51 @@ function game(rounds) {
     return finalScore
 }
 
-console.log(game(6));
+window.addEventListener('click', function (e) {
+    if (e.explicitOriginalTarget.classList[0] !== 'selection') return;
+    const playerSelection = e.explicitOriginalTarget.attributes.value.value;
+    const computerSelection = getcomputerChoice();
+    // instead of logging, update DOM to reflect results.
+    const result = playRound(playerSelection, computerSelection);
+    console.log(result);
+    this.document.getElementsByClassName('result')[0].innerHTML = result;
+    // console.log(this.document.getElementsByClassName('result'));
+    // this.document.getElementById('results').innerHTML = "test";
+    this.document.getElementsByClassName('player-selection')[0].innerHTML = playerSelection;
+    this.document.getElementsByClassName('computer-selection')[0].innerHTML = computerSelection;
+    if (result.includes("Win")) {
+        playerScore++;
+        this.document.getElementsByClassName('player-score')[0].innerHTML = playerScore;
+        if (checkWinner(playerScore, computerScore)) {
+            this.window.alert("You won 5 matches!");
+        }
+
+    } else if (result.includes("Lose")) {
+        computerScore++;
+        this.document.getElementsByClassName('computer-score')[0].innerHTML = computerScore;
+        if (checkWinner(playerScore, computerScore)) {
+            this.window.alert("You lost 5 matches!");
+        }
+    } else {
+        return;
+    }
+});
+
+// console.log(game(6));
+
+var playerScore = 0;
+var computerScore = 0;
+
+document.getElementsByClassName('player-score')[0].innerHTML = playerScore;
+document.getElementsByClassName('computer-score')[0].innerHTML = computerScore;
+
+function checkWinner(humanScore, aiScore) {
+    console.log(humanScore);
+    console.log(aiScore);
+    console.log(humanScore == 5 || aiScore == 5);
+    if (humanScore == 5 || aiScore == 5) {
+        return true;
+    }
+
+    return false;
+}
